@@ -1,0 +1,11 @@
+<h1>Perfil del usuario</h1>
+ <hr>
+ <pre *ngIf="auth.user$ | async as profile">
+    <code>
+        <img src="{{profile.picture}}" alt="Profile Picture">
+        {{profile.name}}
+        {{profile.email}}
+
+
+    </code>
+ </pre>
