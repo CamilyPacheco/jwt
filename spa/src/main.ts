@@ -4,6 +4,7 @@ import { AppModule } from './app/app.module';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAuth0 } from '@auth0/auth0-angular';
 import { AppComponent } from './app/app.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
@@ -16,6 +17,6 @@ bootstrapApplication(AppComponent, {
       authorizationParams: {
         redirect_uri: window.location.origin
       }
-    }),
+    }), provideAnimationsAsync(),
   ]
 });

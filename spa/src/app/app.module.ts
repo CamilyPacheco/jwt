@@ -1,43 +1,54 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthService } from './auth.service';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './components/login/login.component';
+import { ProtegidoComponent } from './components/protegido/protegido.component';
+import { AuthInterceptor } from './auth.interceptor';
+import { provideAuth0 } from '@auth0/auth0-angular';
+import { FormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './auth.guard';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { PrecioComponent } from './components/precio/precio.component';
-import { ProtegidaComponent } from './components/protegida/protegida.component';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthModule } from '@auth0/auth0-angular';
-import { AuthBottonComponent } from './components/auth-botton/auth-botton.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { AuthComponent } from './components/auth/auth.component';
-import { AuthLoginComponent } from './components/auth-login/auth-login.component';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    ProtegidoComponent,
     NavbarComponent,
     HomeComponent,
-    PrecioComponent,
-    ProtegidaComponent,
-    AuthBottonComponent,
-    AuthComponent,
-    AuthLoginComponent
+    PrecioComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    AuthModule.forRoot({
-      domain:"dev-gin5bkucdwzu3jbf.us.auth0.com",
-      clientId:"3DMy4BQ5vbAqVCYBefZW95zv9HdTpemA", 
-      authorizationParams: {
-        redirect_uri: window.location.origin
-      }
-    }),
-    
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
-  providers: [],
+  providers: [
+    AuthService, AuthGuard, JwtHelperService,
+      { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
